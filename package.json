@@ -1,14 +1,20 @@
 {
-  "name": "conFusion2",
+  "name": "sl",
   "version": "0.0.1",
   "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
-  "private": true,
-  "scripts": {
-    "start": "ionic-app-scripts serve",
-    "clean": "ionic-app-scripts clean",
-    "build": "ionic-app-scripts build",
-    "lint": "ionic-app-scripts lint"
+    "homepage": "http://ionicframework.com/",
+    "private": true,
+    "scripts": {
+        "clean": "ionic-app-scripts clean",
+        "build": "ionic-app-scripts build",
+        "lint": "ionic-app-scripts lint",
+        "ionic:build": "ionic-app-scripts build",
+        "ionic:serve": "ionic-app-scripts serve",
+        "prod": "cross-env NODE_ENV=production npm start",
+        "test": "karma start ./test-config/karma.conf.js",
+        "test-ci": "karma start ./test-config/karma.conf.js --single-run",
+        "e2e": "webdriver-manager update --standalone false --gecko false; protractor ./test-config/protractor.conf.js",
+        "postinstall": "ionic-app-scripts build"
   },
   "dependencies": {
     "@angular/animations": "5.2.11",

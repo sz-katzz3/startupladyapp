@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "169429578638",
+    "firebase_url": "https://startuplady.firebaseio.com",
+    "project_id": "startuplady",
+    "storage_bucket": "startuplady.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169429578638:android:32ddcc3e2f6aecb9206adf",
+        "android_client_info": {
+          "package_name": "startuplady.jp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "169429578638-oar2ism4l6bcbl4mjdnjnj7fq214nd3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjSFWht8KbetkJrW4OwrzlcBu1KEGK2YU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "169429578638-oar2ism4l6bcbl4mjdnjnj7fq214nd3s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "169429578638-lbk82dsnprvindebqunc38ld0p1l2tl7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "startuplady"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
