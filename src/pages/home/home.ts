@@ -2,15 +2,12 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { IonicPage, NavController, Loading, LoadingController, AlertController } from 'ionic-angular';
 import { SearchParams } from './search-params.class'
 import { FirebaseService, Utils } from '../../shared/shared';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable } from '@angular/fire';
 import firebase from 'firebase';
 import { AuthProvider } from '../../providers/auth';
-import { Observable } from 'rxjs';
-import { Subject } from 'rxjs';
-import { debounceTime, map, takeUntil, tap } from 'rxjs/';
 import 'rxjs/add/operator/map';
-
-
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 
 @IonicPage()
