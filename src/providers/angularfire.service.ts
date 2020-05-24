@@ -1,15 +1,16 @@
 
-import { AngularFireDatabase, FirebaseListObservable } from "angularfire2/database-deprecated";
+import { AngularFireDatabase, AngularFireObject } from "angularfire2/database";
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class AngularFireService {
     constructor(public db: AngularFireDatabase) { }
 
-    getAnagrams(word) : FirebaseListObservable<any[]> {
+    getAnagrams(word) : AngularFireObject<any[]> {
         return this.db.object('/alphagrams/' + word);
     }
 
-    getHooks(word) : FirebaseListObservable<any[]> {
+    getHooks(word) : AngularFireObject<any[]> {
         return this.db.object('/hooks/' + word);
     }
 

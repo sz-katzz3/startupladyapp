@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Dish } from '../../shared/dish';
 import { Observable } from 'rxjs/Observable';
@@ -15,7 +15,7 @@ export class FavoriteProvider {
 
   favorites: Array<any>;
 
-  constructor(public http: HttpClient,
+  constructor(public http: HttpModule,
     private dishservice: DishProvider) {
     console.log('Hello FavoriteProvider Provider');
     this.favorites = [];

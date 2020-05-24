@@ -1,14 +1,12 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, Loading, LoadingController, AlertController } from 'ionic-angular';
-import { SearchParams } from './search-params.class'
-import { FirebaseService, Utils } from '../../shared/shared';
-import { AngularFireDatabase, FirebaseListObservable } from '@angular/fire';
-import firebase from 'firebase';
+import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 import { AuthProvider } from '../../providers/auth';
-import 'rxjs/add/operator/map';
+import { FirebaseService, Utils } from '../../shared/shared';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-
+import { SearchParams } from './search-params.class'
+import 'rxjs/add/operator/debounceTime';
 
 @IonicPage()
 @Component({
@@ -20,7 +18,7 @@ import { Subject } from 'rxjs/Subject';
 export class HomePage {
 
 
-  items: FirebaseListObservable<any[]>;
+  items: AngularFireObject<any[]>;
   displayText: String;
   inputWordLength: number;
   inputOrderBy: string;
@@ -30,7 +28,7 @@ export class HomePage {
   searchParams: SearchParams;
   searchParamsSubject: Subject<any>;
 
-  requery: FirebaseListObservable<any[]>;
+  requery: AngularFireObject<any[]>;
   quizList: any[];
   userIdent: any;
   userQuizList: any;
@@ -59,7 +57,6 @@ export class HomePage {
     this.inputWordLength = 7;
     this.inputStartPos = 1;
     this.inputOrderBy = 'avgplay';
-    this.items = this.getAnagramList(db, this.inputWordLength, this.inputOrderBy, this.inputStartPos, this.inputListSize);
     this.loggedIn = false;
     this.userIdent = auth.getCurrentUserIdent();
     this.quizList = [];
@@ -67,7 +64,7 @@ export class HomePage {
     this.displayCustomList = false;
     this.searchParams = new SearchParams(25, 7, 1);
     this.searchParamsSubject = new Subject<SearchParams>();
-    this.auth$ = this.auth.getAuthSub()
+    this.auth$ = this.auth.getAuthSub();
   }
 
   ngOnInit() {
@@ -79,7 +76,7 @@ export class HomePage {
         else this.userIdent = "No user";
       }
     )
-    this.searchParamsSubject.pipe(debounceTime(1000)).subscribe(
+    this.searchParamsSubject.debounceTime(1000).subscribe(
       (v) => {
         console.log(v);
         console.log("in the subscription");
@@ -88,7 +85,6 @@ export class HomePage {
         if (inputListSize < 1 || isNaN(inputListSize)) inputListSize = 1;
         let inputStartPos = -(-v.startPos);
         let inputWordLength = -(-v.wordLength);
-        this.items = this.getAnagramList(this.db, inputWordLength, this.inputOrderBy, inputStartPos, inputListSize);
         console.log(this.items);
         this.dynamicQueryList = this.firebaseService.getWordHistoryList(
           inputWordLength,
@@ -96,7 +92,7 @@ export class HomePage {
           inputStartPos,
           inputListSize);
         this.quizList = [];
-        this.items.subscribe(snapshots => {
+        this.items.valueChanges().subscribe(snapshots => {
           //console.log(snapshots);
           snapshots.forEach(snapshot => {
             this.quizList.push(snapshot.$key);
@@ -106,18 +102,6 @@ export class HomePage {
       }
     );
     this.searchParamsSubject.next(this.searchParams);
-  }
-
-  getAnagramList(db: AngularFireDatabase, wordLength = 7, orderBy = 'avgplay', startPos = 2000, listSize = 20, getSnapshot = false) {
-    this.firebaseService.getAnagramListStatic(wordLength, orderBy, startPos, listSize);
-    return db.list('/alphagram_ranks/' + wordLength, {
-      query: {
-        orderByChild: orderBy,
-        startAt: startPos,
-        endAt: startPos + listSize - 1
-      },
-      preserveSnapshot: getSnapshot
-    });
   }
 
   refreshLogin() {
@@ -130,7 +114,7 @@ export class HomePage {
   refreshQuery() {
     this.requery = this.items;
     this.quizList = [];
-    this.requery.subscribe(snapshots => {
+    this.requery.valueChanges().subscribe(snapshots => {
       snapshots.forEach(snapshot => {
         this.quizList.push(snapshot.key);
         console.log(snapshot.key);
@@ -204,10 +188,8 @@ export class HomePage {
 
     let user = this.auth.getCurrentUser().uid;
     let subscription = this.db.object('/userProfile/' + user);
-    subscription.subscribe(subscribeData => {
-      let quiz = JSON.parse(subscribeData.quiz);
+    subscription.valueChanges().subscribe(subscribeData => {
       console.log("sync");
-      console.log(quiz);
     });
   }
 
@@ -236,4 +218,3 @@ export class HomePage {
   }
   
 }
-

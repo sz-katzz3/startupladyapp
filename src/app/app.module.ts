@@ -56,15 +56,9 @@ import firebase from 'firebase';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    EmailComposer,
     ProcessHttpmsgProvider,
     {provide: 'BaseURL', useValue: baseURL},
-    FavoriteProvider,
-    SocialSharing,
-    Camera,
-    Network,
-    CallNumber
-  ]
+    FavoriteProvider  ]
 })
 export class AppModule {}
 
